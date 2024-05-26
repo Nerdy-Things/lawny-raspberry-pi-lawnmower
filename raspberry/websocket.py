@@ -1,7 +1,8 @@
 import asyncio
 import json
 from json import JSONDecodeError
-from motor_handler import MotorHandler
+from motor_controller import MotorController
+from cutter_controller import CutterController
 from websocket_command import WebsocketCommand
 from websocket_command import WebsocketCommandType
 from websockets.exceptions import ConnectionClosed
@@ -14,8 +15,10 @@ PONG_TIMEOUT = 3
 ip = "0.0.0.0"
 port = 8765
 
-motor_handler = MotorHandler()
-motor_handler.init()
+motor_controller: MotorController = MotorController()
+cutter_controller: CutterController = CutterController()
+
+motor_controller.init()
 
 ping_tasks = {}
 
@@ -34,15 +37,17 @@ async def handler(websocket):
                 print(f"Type == {command.type} {type(command.type)}")
                 if command.type is WebsocketCommandType.MOTOR:
                     print(f"Motor change")
-                    motor_handler.set(command.left, command.right)
+                    motor_controller.set(command.left, command.right)
+                    cutter_controller.set_state(command.cutter)
             except JSONDecodeError:
                 print("Incorrect JSON")
     except ConnectionClosed:
         print("Connection closed!")
-        motor_handler.stop()
+        motor_controller.stop()
     finally:
         if websocket in ping_tasks:  # Check if websocket exists before cancellation
             ping_tasks[websocket].cancel()
+            cutter_controller.set_state(False)
             ping_tasks.pop(websocket)
 
 async def ping_sender(websocket):

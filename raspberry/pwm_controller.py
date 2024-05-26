@@ -16,7 +16,7 @@ class PwmChannel(Enum):
     GPIO_12 = 0
     GPIO_13 = 1
 
-class PwmControl:
+class PwmController:
     _pwms = {}
 
     def init(self, channel: PwmChannel):

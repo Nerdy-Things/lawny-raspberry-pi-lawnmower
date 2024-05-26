@@ -15,10 +15,10 @@ channels: list[GpioChannel] = [
     GpioChannel.GPIO_7,
 ]
 
-class GpioControl:
+class GpioController:
     _prev_states = {}
     
-    def init(self, channel: GpioChannel):
+    def _init(self, channel: GpioChannel):
         config = {}
         config[channel.value] = gpiod.LineSettings(direction=Direction.OUTPUT, output_value=Value.ACTIVE)
         request = gpiod.request_lines(
@@ -30,7 +30,7 @@ class GpioControl:
 
     def set_state(self, channel: GpioChannel, state: bool):
         if channel not in self._prev_states or self._prev_states[channel] != state: 
-            request = self.init(channel)
+            request = self._init(channel)
             with request as opened:
                 if state:
                     opened.set_value(channel.value, Value.ACTIVE)
