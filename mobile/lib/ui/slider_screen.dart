@@ -37,7 +37,7 @@ class SliderScreenWidgetState extends State<SliderScreenWidget> {
             height: double.infinity,
             child: Stack(children: [
               Positioned(
-                top: 50.0,
+                top: 200.0,
                 left: null,
                 right: null,
                 child: RotatedBox(

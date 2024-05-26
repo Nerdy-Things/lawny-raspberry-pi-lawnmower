@@ -10,8 +10,8 @@ class MotorController:
     _left_motor = PwmChannel.GPIO_12
     _right_motor = PwmChannel.GPIO_13
     
-    _left_motor_direction_gpio = GpioChannel.GPIO_6
-    _right_motor_direction_gpio = GpioChannel.GPIO_5
+    _left_motor_direction_gpio = GpioChannel.GPIO_5
+    _right_motor_direction_gpio = GpioChannel.GPIO_6
 
     _pwm_controller: PwmController = PwmController()
     _gpio_controller: GpioController = GpioController()
