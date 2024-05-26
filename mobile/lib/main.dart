@@ -8,7 +8,11 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+
+  final String _ipAddress = "192.168.1.77";
+
   const MyApp({super.key});
+
 
   @override
   Widget build(BuildContext context) {
@@ -22,12 +26,12 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: const SizedBox(
+        home: SizedBox(
           width: double.infinity,
           height: double.infinity,
           child: Stack(children: [
-            WebView(url: "http://192.168.1.77:8889/cam1"),
-            SliderScreenWidget(),
+            WebView(url: "http://$_ipAddress:8889/cam1"),
+            SliderScreenWidget(ipAddress: _ipAddress),
           ]),
         ));
   }

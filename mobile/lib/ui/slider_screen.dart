@@ -1,9 +1,12 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile/websocket_client.dart';
 import 'package:mobile/websocket_command.dart';
 
 class SliderScreenWidget extends StatefulWidget {
-  const SliderScreenWidget({super.key});
+  final String ipAddress;
+
+  const SliderScreenWidget({super.key, required this.ipAddress});
 
   @override
   State<StatefulWidget> createState() {
@@ -11,13 +14,17 @@ class SliderScreenWidget extends StatefulWidget {
   }
 }
 
-class SliderScreenWidgetState extends State {
-  final _websocketClient = WebSocketClient();
+class SliderScreenWidgetState extends State<SliderScreenWidget> {
+  late WebSocketClient _websocketClient;
   double _sliderRight = 0.0;
   double _sliderLeft = 0.0;
   bool _cutter = false;
 
-  SliderScreenWidgetState() {
+
+  @override
+  void initState() {
+    super.initState();
+    _websocketClient = WebSocketClient(widget.ipAddress);
     _websocketClient.connect();
   }
 
@@ -34,17 +41,20 @@ class SliderScreenWidgetState extends State {
                 top: 50.0,
                 left: null,
                 right: null,
-                child: Switch(
-                  value: _cutter,
-                  activeColor: Colors.green,
-                  onChanged: (bool value) {
-                    setState(() {
-                      _cutter = value;
-                    });
-                  },
+                child: RotatedBox(
+                  quarterTurns: 1,
+                  child: Switch(
+                    value: _cutter,
+                    activeColor: Colors.green,
+                    onChanged: (bool value) {
+                      setState(() {
+                        _cutter = value;
+                      });
+                    },
+                  ),
                 ),
               ),
-              Row(
+              Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -76,22 +86,19 @@ class SliderScreenWidgetState extends State {
   Widget slider(Function action, double value) {
     return Padding(
       padding: const EdgeInsets.all(24.0),
-      child: RotatedBox(
-        quarterTurns: 1,
-        child: Slider(
-          value: value,
-          min: -100.0,
-          max: 100.0,
-          divisions: 20,
-          activeColor: Colors.purple.shade100,
-          inactiveColor: Colors.purple.shade100,
-          label: value.round().toString(),
-          onChanged: (double value) {
-            setState(() {
-              action.call(value);
-            });
-          },
-        ),
+      child: Slider(
+        value: value,
+        min: -100.0,
+        max: 100.0,
+        divisions: 20,
+        activeColor: Colors.purple.shade100,
+        inactiveColor: Colors.purple.shade100,
+        label: value.round().toString(),
+        onChanged: (double value) {
+          setState(() {
+            action.call(value);
+          });
+        },
       ),
     );
   }

@@ -4,12 +4,15 @@ import 'package:web_socket_channel/web_socket_channel.dart';
 
 class WebSocketClient {
   WebSocketChannel? _channel = null;
+  String _ipAddress = "";
+
+
 
   void connect() async {
     try {
       print("connect");
       _channel = WebSocketChannel.connect(
-        Uri.parse('ws://192.168.1.77:8765'),
+        Uri.parse('ws://$_ipAddress:8765'),
       );
       _listen();
     } catch (error) {
@@ -29,7 +32,8 @@ class WebSocketClient {
   static final WebSocketClient _instance =
       WebSocketClient._privateConstructor();
 
-  factory WebSocketClient() {
+  factory WebSocketClient(String ipAddress) {
+    _instance._ipAddress = ipAddress;
     return _instance;
   }
 

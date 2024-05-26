@@ -1,5 +1,5 @@
-from raspberry.gpio_controller import GpioController
-from raspberry.gpio_controller import GpioChannel
+from gpio_controller import GpioController
+from gpio_controller import GpioChannel
 
 class CutterController: 
     _cutter_state = None
