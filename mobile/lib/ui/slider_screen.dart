@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile/websocket_client.dart';
-import 'package:mobile/websocket_command.dart';
+import 'package:fpv_lawn_mover/websocket_client.dart';
+import 'package:fpv_lawn_mover/websocket_command.dart';
 
 class SliderScreenWidget extends StatefulWidget {
   final String ipAddress;
@@ -19,7 +19,6 @@ class SliderScreenWidgetState extends State<SliderScreenWidget> {
   double _sliderRight = 0.0;
   double _sliderLeft = 0.0;
   bool _cutter = false;
-
 
   @override
   void initState() {
@@ -49,6 +48,7 @@ class SliderScreenWidgetState extends State<SliderScreenWidget> {
                     onChanged: (bool value) {
                       setState(() {
                         _cutter = value;
+                        sendValues();
                       });
                     },
                   ),
@@ -76,10 +76,11 @@ class SliderScreenWidgetState extends State<SliderScreenWidget> {
   void sendValues() {
     _websocketClient.send(
       WebsocketCommand(
-          type: WebsocketCommandType.MOTOR,
-          left: _sliderRight.toInt(),
-          right: _sliderLeft.toInt(),
-          cutter: _cutter),
+        type: WebsocketCommandType.MOTOR,
+        left: _sliderRight.toInt(),
+        right: _sliderLeft.toInt(),
+        cutter: _cutter,
+      ),
     );
   }
 

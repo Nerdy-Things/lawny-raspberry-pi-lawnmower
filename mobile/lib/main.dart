@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:mobile/ui/slider_screen.dart';
-import 'package:mobile/ui/web_view.dart';
+import 'package:fpv_lawn_mover/ui/slider_screen.dart';
+import 'package:fpv_lawn_mover/ui/web_view.dart';
 
 void main() {
   runApp(const MyApp());

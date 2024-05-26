@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:mobile/websocket_command.dart';
+import 'package:fpv_lawn_mover/websocket_command.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 class WebSocketClient {
