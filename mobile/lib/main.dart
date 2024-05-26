@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
           width: double.infinity,
           height: double.infinity,
           child: Stack(children: [
-            WebView(url: "http://192.168.1.73:8889/cam1"),
+            WebView(url: "http://192.168.1.77:8889/cam1"),
             SliderScreenWidget(),
           ]),
         ));

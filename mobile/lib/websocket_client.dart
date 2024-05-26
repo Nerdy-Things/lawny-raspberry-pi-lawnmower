@@ -9,7 +9,7 @@ class WebSocketClient {
     try {
       print("connect");
       _channel = WebSocketChannel.connect(
-        Uri.parse('ws://192.168.1.73:8765'),
+        Uri.parse('ws://192.168.1.77:8765'),
       );
       _listen();
     } catch (error) {
