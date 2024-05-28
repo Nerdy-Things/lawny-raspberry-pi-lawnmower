@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     WidgetsFlutterBinding.ensureInitialized();
     SystemChrome.setPreferredOrientations([
-      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.portraitUp,
     ]);
     return MaterialApp(
         title: 'Flutter Demo',

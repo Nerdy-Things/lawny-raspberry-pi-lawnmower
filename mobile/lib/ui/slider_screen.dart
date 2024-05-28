@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fpv_lawn_mover/websocket_client.dart';
 import 'package:fpv_lawn_mover/websocket_command.dart';
@@ -16,8 +15,8 @@ class SliderScreenWidget extends StatefulWidget {
 
 class SliderScreenWidgetState extends State<SliderScreenWidget> {
   late WebSocketClient _websocketClient;
-  double _sliderRight = 0.0;
-  double _sliderLeft = 0.0;
+  double _sliderVertical = 0.0;
+  double _sliderHorizontal = 0.0;
   bool _cutter = false;
 
   @override
@@ -36,12 +35,10 @@ class SliderScreenWidgetState extends State<SliderScreenWidget> {
             width: double.infinity,
             height: double.infinity,
             child: Stack(children: [
-              Positioned(
-                top: 200.0,
-                left: null,
-                right: null,
-                child: RotatedBox(
-                  quarterTurns: 1,
+              SizedBox(
+                height: 100.0,
+                width: double.infinity,
+                child: Center(
                   child: Switch(
                     value: _cutter,
                     activeColor: Colors.green,
@@ -54,20 +51,22 @@ class SliderScreenWidgetState extends State<SliderScreenWidget> {
                   ),
                 ),
               ),
-              Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    slider((value) {
-                      _sliderLeft = value;
+              Column(children: [
+                Expanded(
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: slider(true, (value) {
+                      _sliderVertical = value;
                       sendValues();
-                    }, _sliderLeft),
-                    const Expanded(child: Spacer()),
-                    slider((value) {
-                      _sliderRight = value;
-                      sendValues();
-                    }, _sliderRight),
-                  ]),
+                    }, _sliderVertical),
+                  ),
+                ),
+                slider(false, (value) {
+                  _sliderHorizontal = value;
+                  sendValues();
+                }, _sliderHorizontal),
+                // const Expanded(child: Spacer()),
+              ]),
             ])),
       ),
     );
@@ -77,29 +76,35 @@ class SliderScreenWidgetState extends State<SliderScreenWidget> {
     _websocketClient.send(
       WebsocketCommand(
         type: WebsocketCommandType.MOTOR,
-        left: _sliderRight.toInt(),
-        right: _sliderLeft.toInt(),
+        x: _sliderHorizontal.toInt(),
+        y: _sliderVertical.toInt(),
         cutter: _cutter,
       ),
     );
   }
 
-  Widget slider(Function action, double value) {
+  Widget slider(bool isVertical, Function action, double value) {
     return Padding(
       padding: const EdgeInsets.all(24.0),
-      child: Slider(
-        value: value,
-        min: -100.0,
-        max: 100.0,
-        divisions: 20,
-        activeColor: Colors.purple.shade100,
-        inactiveColor: Colors.purple.shade100,
-        label: value.round().toString(),
-        onChanged: (double value) {
-          setState(() {
-            action.call(value);
-          });
-        },
+      child: SizedBox(
+        width: (isVertical) ? 50.0 : double.infinity,
+        child: RotatedBox(
+          quarterTurns: (isVertical) ? 1 : 0,
+          child: Slider(
+            value: value,
+            min: -100.0,
+            max: 100.0,
+            divisions: 20,
+            activeColor: Colors.purple.shade100,
+            inactiveColor: Colors.purple.shade100,
+            label: value.round().toString(),
+            onChanged: (double value) {
+              setState(() {
+                action.call(value);
+              });
+            },
+          ),
+        ),
       ),
     );
   }

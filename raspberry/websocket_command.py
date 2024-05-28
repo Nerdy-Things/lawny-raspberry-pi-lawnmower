@@ -7,8 +7,8 @@ class WebsocketCommandType(Enum):
 @dataclass
 class WebsocketCommand:
   type: WebsocketCommandType
-  left: int
-  right: int
+  x: int
+  y: int
   cutter: bool
 
   def __post_init__(self):

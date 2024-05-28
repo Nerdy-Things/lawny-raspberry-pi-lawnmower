@@ -6,22 +6,22 @@ enum WebsocketCommandType {
 
 class WebsocketCommand {
   final WebsocketCommandType type;
-  final int left;
-  final int right;
+  final int x;
+  final int y;
   final bool cutter;
 
   const WebsocketCommand({
     required this.type,
-    required this.left,
-    required this.right,
+    required this.x,
+    required this.y,
     required this.cutter,
   });
 
   String toJson() {
     return convert.jsonEncode({
       'type': type.name.toUpperCase(),
-      'left': left,
-      'right': right,
+      'x': x,
+      'y': y,
       'cutter': cutter,
     });
   }
