@@ -37,7 +37,7 @@ async def handler(websocket):
                 print(f"Type == {command.type} {type(command.type)}")
                 if command.type is WebsocketCommandType.MOTOR:
                     print(f"Motor change")
-                    motor_controller.set(command.left, command.right)
+                    motor_controller.set(command.x, command.y)
                     cutter_controller.set_state(command.cutter)
             except JSONDecodeError:
                 print("Incorrect JSON")
