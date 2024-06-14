@@ -89,7 +89,7 @@ class SliderScreenWidgetState extends State<SliderScreenWidget> {
       child: SizedBox(
         width: (isVertical) ? 50.0 : double.infinity,
         child: RotatedBox(
-          quarterTurns: (isVertical) ? 1 : 0,
+          quarterTurns: (isVertical) ? 3 : 2,
           child: Slider(
             value: value,
             min: -100.0,

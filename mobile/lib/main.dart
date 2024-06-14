@@ -9,7 +9,7 @@ void main() {
 
 class MyApp extends StatelessWidget {
 
-  final String _ipAddress = "192.168.1.77";
+  final String _ipAddress = "192.168.0.100";
 
   const MyApp({super.key});
 
