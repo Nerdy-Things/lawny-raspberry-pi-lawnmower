@@ -2,7 +2,7 @@
 
 Imagine sitting at home in a comfortable chair, playing a racing simulator, and mowing your lawn simultaneously. Sounds cool? And it's real.
 
-# Youtube video
+# The creation process in a video
 
 [![Watch the video](/images/thumbnail.png)](https://www.youtube.com/watch?v=4OQUo0V-8QY)
 
