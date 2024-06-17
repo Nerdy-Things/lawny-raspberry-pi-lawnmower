@@ -1,6 +1,6 @@
 # Lawny: Phone-Controlled, Raspberry PI-based First-Person-View Lawn-Mower
 
-The opensorce library that can control an automated relay switch based on schedule or temperature from sensors. 
+Imagine sitting at home in a comfortable chair, playing a racing simulator, and mowing your lawn simultaneously. Sounds cool? And it's real.
 
 # Youtube video
 
