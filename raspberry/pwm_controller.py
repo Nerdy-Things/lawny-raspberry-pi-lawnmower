@@ -1,5 +1,6 @@
 from rpi_hardware_pwm import HardwarePWM
 from enum import Enum
+from system_info import SystemInfo
 
 frequency = 20000
 
@@ -15,6 +16,13 @@ class OutOfBoundsException(Exception):
 class PwmChannel(Enum):
     GPIO_12 = 0
     GPIO_13 = 1
+
+if SystemInfo.is_rasbperry_5():
+    # For Raspberry PI 5
+    chip = 2
+else:
+    # For Raspberry PI (1,2,3,4,Zero)
+    chip = 0
 
 class PwmController:
     _pwms = {}

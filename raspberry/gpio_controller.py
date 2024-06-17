@@ -1,8 +1,14 @@
 import gpiod
 from gpiod.line import Direction, Value
 from enum import Enum
+from system_info import SystemInfo
 
-chip_name = "/dev/gpiochip4"
+if SystemInfo.is_rasbperry_5():
+    # For Raspberry PI 5
+    chip_name = "/dev/gpiochip4"
+else:
+    # For Raspberry PI (1,2,3,4,Zero)
+    chip_name = "/dev/gpiochip0"
     
 class GpioChannel(Enum):
     GPIO_5 = 5
