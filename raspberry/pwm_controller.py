@@ -17,13 +17,6 @@ class PwmChannel(Enum):
     GPIO_12 = 0
     GPIO_13 = 1
 
-if SystemInfo.is_rasbperry_5():
-    # For Raspberry PI 5
-    chip = 2
-else:
-    # For Raspberry PI (1,2,3,4,Zero)
-    chip = 0
-
 class PwmController:
     _pwms = {}
 
@@ -32,7 +25,7 @@ class PwmController:
             raise AlreadyStartedException("Pwm was initialized on that channel")
         else:
             print(f"Init {channel}")
-            pwm = HardwarePWM(pwm_channel=channel.value, hz=frequency, chip=2)
+            pwm = HardwarePWM(pwm_channel=channel.value, hz=frequency, chip=SystemInfo.pwm_chip())
             pwm.start(0)
             self._pwms[channel] = pwm
 

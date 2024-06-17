@@ -2,13 +2,6 @@ import gpiod
 from gpiod.line import Direction, Value
 from enum import Enum
 from system_info import SystemInfo
-
-if SystemInfo.is_rasbperry_5():
-    # For Raspberry PI 5
-    chip_name = "/dev/gpiochip4"
-else:
-    # For Raspberry PI (1,2,3,4,Zero)
-    chip_name = "/dev/gpiochip0"
     
 class GpioChannel(Enum):
     GPIO_5 = 5
@@ -28,7 +21,7 @@ class GpioController:
         config = {}
         config[channel.value] = gpiod.LineSettings(direction=Direction.OUTPUT, output_value=Value.ACTIVE)
         request = gpiod.request_lines(
-            chip_name,
+            SystemInfo.gpio_chip(),
             consumer = "GpioControl",
             config = config
         )

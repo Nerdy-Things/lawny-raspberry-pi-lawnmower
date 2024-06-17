@@ -11,3 +11,18 @@ class SystemInfo:
     def is_rasbperry_5() -> bool:
         return is_raspberry_five
     
+    def pwm_chip() -> int:
+        if SystemInfo.is_rasbperry_5():
+            # For Raspberry PI 5
+            return 2
+        else:
+            # For Raspberry PI (1,2,3,4,Zero)
+            return 0
+        
+    def gpio_chip() -> str:
+        if SystemInfo.is_rasbperry_5():
+            # For Raspberry PI 5
+            return "/dev/gpiochip4"
+        else:
+            # For Raspberry PI (1,2,3,4,Zero)
+            return "/dev/gpiochip0"
