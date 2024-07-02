@@ -4,9 +4,9 @@ After=multi-user.target
 
 [Service]
 ExecStart=/usr/bin/python3 /home/__USER__/lawny-raspberry-pi-lawnmower/raspberry/websocket.py
-WorkingDirectory=/home/__USER__/lawny-raspberry-pi-lawnmowery/python/
-StandardOutput=file:/home/__USER__/lawny-raspberry-pi-lawnmower/raspberry/logs/daemon_ai.log
-StandardError=file:/home/__USER__/lawny-raspberry-pi-lawnmower/raspberry/logs/daemon_ai.log
+WorkingDirectory=/home/__USER__/lawny-raspberry-pi-lawnmower/raspberry/
+StandardOutput=file:/home/__USER__/lawny-raspberry-pi-lawnmower/raspberry/daemon_out.log
+StandardError=file:/home/__USER__/lawny-raspberry-pi-lawnmower/raspberry/daemon_error.log
 Restart=always
 User=__USER__
 RemainAfterExit=True
