@@ -8,11 +8,9 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-
-  final String _ipAddress = "192.168.0.100";
+  final String _ipAddress = "192.168.0.101";
 
   const MyApp({super.key});
-
 
   @override
   Widget build(BuildContext context) {
