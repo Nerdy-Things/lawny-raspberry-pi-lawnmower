@@ -1,7 +1,6 @@
 #!/bin/bash
 
-sudo apt-get install -y git \
-    python3 
+sudo apt-get install -y git python3 
 
 # https://github.com/Pioreactor/rpi_hardware_pwm
 pip3 install rpi-hardware-pwm --break-system-packages
