@@ -20,3 +20,5 @@ sudo systemctl start lawny_websocket.service
 
 sudo systemctl enable lawny_video.service
 sudo systemctl start lawny_video.service
+
+systemctl list-unit-files | grep lawny
