@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fpv_lawn_mover/ui/slider_screen.dart';
 import 'package:fpv_lawn_mover/ui/web_view.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  final String _ipAddress = "192.168.0.101";
+  final String _ipAddress = "192.168.8.162";
 
   const MyApp({super.key});
 
@@ -18,6 +19,7 @@ class MyApp extends StatelessWidget {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
     ]);
+    WakelockPlus.enable();
     return MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
@@ -28,8 +30,14 @@ class MyApp extends StatelessWidget {
           width: double.infinity,
           height: double.infinity,
           child: Stack(children: [
-            WebView(url: "http://$_ipAddress:8889/cam1"),
+            Container(
+              color: Colors.blueAccent,
+            ),
+            Positioned.fill(
+              child: WebView(url: "http://$_ipAddress:8888/cam1"),
+            ),
             SliderScreenWidget(ipAddress: _ipAddress),
+            // WebView(url: "http://$_ipAddress:8888/cam1"),
           ]),
         ));
   }

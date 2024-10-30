@@ -3,7 +3,7 @@ Description=Run video service
 After=multi-user.target
 
 [Service]
-ExecStart=/usr/bin/bash /home/__USER__/lawny-raspberry-pi-lawnmower/raspberry/mediamtx
+ExecStart=/home/__USER__/lawny-raspberry-pi-lawnmower/raspberry/mediamtx
 WorkingDirectory=/home/__USER__/lawny-raspberry-pi-lawnmower/raspberry/
 StandardOutput=file:/home/__USER__/lawny-raspberry-pi-lawnmower/raspberry/daemon_video_out.log
 StandardError=file:/home/__USER__/lawny-raspberry-pi-lawnmower/raspberry/daemon_video_error.log

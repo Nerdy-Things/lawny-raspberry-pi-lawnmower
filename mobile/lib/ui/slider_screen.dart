@@ -35,19 +35,22 @@ class SliderScreenWidgetState extends State<SliderScreenWidget> {
             width: double.infinity,
             height: double.infinity,
             child: Stack(children: [
-              SizedBox(
-                height: 100.0,
-                width: double.infinity,
-                child: Center(
-                  child: Switch(
-                    value: _cutter,
-                    activeColor: Colors.green,
-                    onChanged: (bool value) {
-                      setState(() {
-                        _cutter = value;
-                        sendValues();
-                      });
-                    },
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0.0, 40.0, 0.0, 0.0),
+                child: SizedBox(
+                  height: 100.0,
+                  width: double.infinity,
+                  child: Center(
+                    child: Switch(
+                      value: _cutter,
+                      activeColor: Colors.green,
+                      onChanged: (bool value) {
+                        setState(() {
+                          _cutter = value;
+                          sendValues();
+                        });
+                      },
+                    ),
                   ),
                 ),
               ),

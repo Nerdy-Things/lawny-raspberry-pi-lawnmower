@@ -1,24 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
+import 'package:webview_flutter_android/webview_flutter_android.dart';
 
 class WebView extends StatefulWidget {
   final String url;
-  const WebView({super.key, required this.url});
+  late final PlatformWebViewControllerCreationParams params;
+
+  WebView({super.key, required this.url}) {
+    if (WebViewPlatform.instance is WebKitWebViewPlatform) {
+      params = WebKitWebViewControllerCreationParams(
+        allowsInlineMediaPlayback: true,
+        mediaTypesRequiringUserAction: const <PlaybackMediaTypes>{},
+      );
+    } else {
+      params = const PlatformWebViewControllerCreationParams();
+    }
+  }
 
   @override
   State<WebView> createState() {
-    return WebViewState(url: url);
+    return WebViewState(url: url, params: params);
   }
 }
 
 class WebViewState extends State<WebView> {
   late WebViewController _controller;
   final String url;
+  final PlatformWebViewControllerCreationParams params;
 
-  WebViewState({required this.url});
+  WebViewState({
+    required this.url,
+    required this.params,
+  });
 
   Future<WebViewController> initializePlayer() async {
-    _controller = WebViewController()
+    _controller = WebViewController.fromPlatformCreationParams(params)
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..setBackgroundColor(const Color(0x00000000))
       ..setNavigationDelegate(
@@ -38,6 +55,11 @@ class WebViewState extends State<WebView> {
         ),
       )
       ..loadRequest(Uri.parse(url));
+    if (_controller.platform is AndroidWebViewController) {
+      AndroidWebViewController.enableDebugging(true);
+      (_controller.platform as AndroidWebViewController)
+          .setMediaPlaybackRequiresUserGesture(false);
+    }
     return _controller;
   }
 
