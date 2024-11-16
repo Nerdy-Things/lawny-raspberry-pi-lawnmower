@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fpv_lawn_mover/ui/main_widget.dart';
 import 'package:fpv_lawn_mover/ui/slider_screen.dart';
 import 'package:fpv_lawn_mover/ui/web_view.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
@@ -9,7 +10,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  final String _ipAddress = "192.168.8.162";
+  final String _ipAddress = "192.168.8.198";
 
   const MyApp({super.key});
 
@@ -21,24 +22,19 @@ class MyApp extends StatelessWidget {
     ]);
     WakelockPlus.enable();
     return MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
-        ),
-        home: SizedBox(
-          width: double.infinity,
-          height: double.infinity,
-          child: Stack(children: [
-            Container(
-              color: Colors.blueAccent,
-            ),
-            Positioned.fill(
-              child: WebView(url: "http://$_ipAddress:8888/cam1"),
-            ),
-            SliderScreenWidget(ipAddress: _ipAddress),
-            // WebView(url: "http://$_ipAddress:8888/cam1"),
-          ]),
-        ));
+      title: 'Lawny',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        useMaterial3: true,
+      ),
+      home: Stack(
+        children: [
+          WebView(url: "http://$_ipAddress:8888/cam1"),
+          ControlWidget(
+            ipAddress: _ipAddress,
+          ),
+        ]
+      ),
+    );
   }
 }

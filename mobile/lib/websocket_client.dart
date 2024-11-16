@@ -3,10 +3,8 @@ import 'package:fpv_lawn_mover/websocket_command.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 class WebSocketClient {
-  WebSocketChannel? _channel = null;
+  WebSocketChannel? _channel;
   String _ipAddress = "";
-
-
 
   void connect() async {
     try {
