@@ -22,16 +22,16 @@ class PwmController:
 
     def init(self, channel: PwmChannel):
         if channel in self._pwms:
-            raise AlreadyStartedException("Pwm was initialized on that channel")
-        else:
-            print(f"Init {channel}")
-            pwm = HardwarePWM(pwm_channel=channel.value, hz=frequency, chip=SystemInfo.pwm_chip())
-            pwm.start(0)
-            self._pwms[channel] = pwm
+            raise ChannelNotFoundException("There is no PWM for this channel")
+        
+        print(f"Init {channel}")
+        pwm = HardwarePWM(pwm_channel=channel.value, hz=frequency, chip=SystemInfo.pwm_chip())
+        pwm.start(0)
+        self._pwms[channel] = pwm
 
     def set(self, channel: PwmChannel, value: int):
         pwm = self._pwms[channel]
-        if not pwm:
+        if channel not in self._pwms:
             raise ChannelNotFoundException("There is no PWM for this channel")
         value = min(value, 100)
         value = max(value, 0)
@@ -39,6 +39,5 @@ class PwmController:
         pwm.change_duty_cycle(value)
 
     def stop(self, channel: PwmChannel):
-        pwm = self._pwms[channel]
-        if not pwm:
+        if channel not in self._pwms:
             raise ChannelNotFoundException("There is no PWM for this channel")

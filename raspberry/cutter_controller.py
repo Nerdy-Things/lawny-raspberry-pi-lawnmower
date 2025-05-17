@@ -9,3 +9,4 @@ class CutterController:
     def set_state(self, state: bool):
         if self._cutter_state != state:
             self._gpio_control.set_state(self._cutter_gpio, state=state)
+            self._cutter_state = state

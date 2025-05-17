@@ -20,32 +20,34 @@ class MotorController:
         self._pwm_controller.init(channel=self._left_motor)
         self._pwm_controller.init(channel=self._right_motor)
 
-    def set(self, x: float, y: float):
+    # direction: -100 (left) to 100 (right)
+    # power: -100 (reverse) to 100 (forward)
+    def set(self, direction: float, power: float):
         reverse_threshold = 75.0
         threshold_leftover = 100.0 - reverse_threshold
-        power = abs(y)
+        power_coefficient = abs(power)
         left_coefficient = 1.0
         right_coefficient = 1.0
-        left_direction_forward = y > 0
-        right_direction_forward = y > 0
-        abs_x = abs(x)
+        left_direction_forward = power > 0
+        right_direction_forward = power > 0
+        abs_x = abs(direction)
         if abs_x > 0 and abs_x < reverse_threshold: 
-            actual_coefficient = 1.0 - abs(x / reverse_threshold)
-            if x < 0:
+            actual_coefficient = 1.0 - abs(direction / reverse_threshold)
+            if direction < 0:
                 right_coefficient = actual_coefficient
             else:
                 left_coefficient = actual_coefficient
         elif abs_x >= reverse_threshold: 
             actual_coefficient = (abs_x - reverse_threshold) / threshold_leftover
-            if x < 0:
+            if direction < 0:
                 right_direction_forward = not right_direction_forward
                 right_coefficient = actual_coefficient
             else:
                 left_direction_forward = not left_direction_forward
                 left_coefficient = actual_coefficient
                 
-        left_power = power * left_coefficient
-        right_power = power * right_coefficient
+        left_power = power_coefficient * left_coefficient
+        right_power = power_coefficient * right_coefficient
 
         self._pwm_controller.set(channel = self._left_motor, value = left_power)
         self._gpio_controller.set_state(channel = self._left_motor_direction_gpio, state = left_direction_forward)

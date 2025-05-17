@@ -1,8 +1,6 @@
-import gpiod
-from gpiod.line import Direction, Value
+import pigpio
 from enum import Enum
-from system_info import SystemInfo
-    
+
 class GpioChannel(Enum):
     GPIO_5 = 5
     GPIO_6 = 6
@@ -15,24 +13,27 @@ channels: list[GpioChannel] = [
 ]
 
 class GpioController:
-    _prev_states = {}
-    
-    def _init(self, channel: GpioChannel):
-        config = {}
-        config[channel.value] = gpiod.LineSettings(direction=Direction.OUTPUT, output_value=Value.ACTIVE)
-        request = gpiod.request_lines(
-            SystemInfo.gpio_chip(),
-            consumer = "GpioControl",
-            config = config
-        )
-        return request
+    def __init__(self):
+        self.pi = pigpio.pi()
+        if not self.pi.connected:
+            raise RuntimeError("Failed to connect to pigpio daemon. Is it running?")
+        self._prev_states = {}
 
     def set_state(self, channel: GpioChannel, state: bool):
-        if channel not in self._prev_states or self._prev_states[channel] != state: 
-            request = self._init(channel)
-            with request as opened:
-                if state:
-                    opened.set_value(channel.value, Value.ACTIVE)
-                else:
-                    opened.set_value(channel.value, Value.INACTIVE)
+        """
+        Set the state of a GPIO channel.
+        :param channel: The GPIO channel to control.
+        :param state: True for HIGH, False for LOW.
+        """
+        gpio_pin = channel.value
+        if channel not in self._prev_states or self._prev_states[channel] != state:
+            print(f"Setting GPIO {gpio_pin} to {'HIGH' if state else 'LOW'}")
+            self.pi.set_mode(gpio_pin, pigpio.OUTPUT)
+            self.pi.write(gpio_pin, pigpio.HIGH if state else pigpio.LOW)
             self._prev_states[channel] = state
+
+    def cleanup(self):
+        """
+        Clean up the GPIO controller and release resources.
+        """
+        self.pi.stop()
